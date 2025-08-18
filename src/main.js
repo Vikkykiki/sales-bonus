@@ -113,13 +113,16 @@ function analyzeSalesData(data, options) {
           throw new Error(`Товар с SKU ${item.sku} не найден`);
         }
 
-        const revenue = calculateRevenue(item, product);
-        const cost = product.purchase_price * item.quantity;
-        const profit = revenue - cost;
+        const revenue = Math.round(calculateRevenue(item, product) * 100) / 100;
+
+        const cost = Math.round(product.purchase_price * item.quantity * 100) / 100;
+
+        const profit = Math.round((revenue - cost) * 100) / 100;
 
         seller.revenue = Math.round((seller.revenue + revenue) * 100) / 100;
         seller.profit = Math.round((seller.profit + profit) * 100) / 100;
 
+        // Статистика по товарам
         if (!seller.products_sold[item.sku]) {
           seller.products_sold[item.sku] = 0;
         }
