@@ -1,4 +1,4 @@
-const data = {
+window.data = {
     "customers": [
         {
             "id": "customer_1",

@@ -10,21 +10,21 @@
 <body>
     <h1>Анализ продаж магазина</h1>
 
-    <script src="data/dataset_1.js"></script>
+    <script src="data/dataset_2.js"></script>
     <script src="src/main.js"></script>
     <script>
         try {
-            console.log("Data loaded:", data);
-
             const report = analyzeSalesData(data, {
                 calculateRevenue: calculateSimpleRevenue,
                 calculateBonus: calculateBonusByProfit
             });
 
             // Вывод в формате, идентичном эталону
-            console.log(JSON.stringify(report, null, 2));
+            const jsonOutput = JSON.stringify(report, null, 2);
+            console.log(jsonOutput);
 
-           if (console.table) console.table(report);
+            // Для удобства — таблица
+            if (console.table) console.table(report);
         } catch (e) {
             console.error("Error:", e.message);
         }
