@@ -5,18 +5,9 @@
  * @returns {number}
  */
 function calculateSimpleRevenue(purchase, _product) {
-  // @TODO: Расчет выручки от операции
-
-  //   const discount = 1 - purchase.discount / 100;
-  //   return (purchase.sale_price * purchase.quantity * discount);
-
-  // purchase — это одна из записей в поле items из чека в data.purchase_records
-  // _product — это продукт из коллекции data.products
   const { discount, sale_price, quantity } = purchase;
-  const decDiscount = discount / 100;
-  const totalPrise = sale_price * quantity;
-  const totalWithDiscount = totalPrise * (1 - decDiscount);
-  return totalWithDiscount;
+  const total = sale_price * quantity * (1 - discount / 100);
+  return Math.round(total * 100) / 100;
 }
 
 /**
@@ -27,7 +18,6 @@ function calculateSimpleRevenue(purchase, _product) {
  * @returns {number}
  */
 function calculateBonusByProfit(index, total, seller) {
-  // @TODO: Расчет бонуса от позиции в рейтинге
   let bonusPercent;
   if (index === 0) {
     bonusPercent = 15;
@@ -36,10 +26,10 @@ function calculateBonusByProfit(index, total, seller) {
   } else if (index === total - 1) {
     bonusPercent = 0;
   } else {
-    // Для всех остальных
     bonusPercent = 5;
   }
-  return (seller.profit * bonusPercent) / 100;
+  const bonus = (seller.profit * bonusPercent) / 100;
+  return Math.round(bonus * 100) / 100; //
 }
 
 /**
@@ -143,7 +133,7 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
-  return sellerStats.map((seller) => ({
+ return sellerStats.map((seller) => ({
     seller_id: seller.seller_id,
     name: seller.name,
     revenue: +seller.revenue.toFixed(2),
